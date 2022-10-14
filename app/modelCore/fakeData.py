@@ -16,7 +16,7 @@ def importCityCounty():
     module_dir = os.path.dirname(__file__)  # get current directory
     file_path = os.path.join(module_dir, 'county.csv')
 
-    file = open(file_path)
+    file = open(file_path,encoding="utf-8")
     reader = csv.reader(file, delimiter=',')
     for index, row in enumerate(reader):
         if index != 0:
