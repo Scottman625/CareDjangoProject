@@ -11,7 +11,7 @@ PROJECT_PATH='/usr/local/apps/app'
 
 echo "Installing dependencies..."
 apt-get update
-apt-get install -y python3-dev python3-venv sqlite3 python3-pip supervisor nginx git
+apt-get install -y python3-dev python3-venv sqlite python-pip supervisor nginx git
 
 # Create project directorycd
 mkdir -p $PROJECT_BASE_PATH
@@ -26,7 +26,7 @@ python3 -m venv $PROJECT_BASE_PATH/env
 # Install python packages
 $PROJECT_BASE_PATH/env/bin/python3 -m pip install -r $PROJECT_BASE_PATH/requirements.txt
 $PROJECT_BASE_PATH/env/bin/python3 -m pip install uwsgi
-echo "migrate..."
+
 # Run migrations and collectstatic
 cd $PROJECT_PATH
 $PROJECT_BASE_PATH/env/bin/python3 manage.py migrate
