@@ -1,0 +1,123 @@
+version: '3.9'
+   
+services:
+  # db:
+  #   image: postgres:14.1-alpine 
+  #   volumes:
+  #     - web-volume:/var/lib/postgresql/data
+  #     # - web-volume:/tmp/data
+  #   env_file:
+  #     - ./env/.conf
+  #   # environment:
+  #   #   POSTGRES_DB: postgres
+  #   #   POSTGRES_USER: postgres #postgres
+  #   #   POSTGRES_PASSWORD: postgres
+  #   #   PGDATA: /var/lib/postgresql/data
+  #   ports:
+  #     - "5432:5432"
+  #   networks:
+  #       - "web-networks"
+    
+  server:
+      build: ./app
+      # entrypoint: /app/docker-entrypoint.sh
+      command: python manage.py runserver 0.0.0.0:8000
+      restart: always
+
+      # ref.
+      # https://docs.djangoproject.com/en/3.0/ref/django-admin/#django-admin-createsuperuser
+      environment:
+        - DJANGO_SUPERUSER_USERNAME=admin
+        - DJANGO_SUPERUSER_PASSWORD=admin
+        - DJANGO_SUPERUSER_EMAIL=admin@twtrubiks.com
+
+      volumes:
+      - ./app:/app/
+        # (HOST:CONTAINER)
+      ports:
+        - "8000:8000"
+        # (HOST:CONTAINER)
+      # depends_on:
+      #   - db
+      # links:
+      #   - db:db
+      networks:
+        - "web-networks"
+      logging:
+        driver: "json-file"
+        options:
+          max-file: "1"    # default 是 1
+          max-size: "200m" # default 是 -1, 也就是沒有限制
+volumes:
+  web-volume:
+networks:
+    web-networks:
+      driver: bridge
+
+#     db:
+#       image: postgres:14.1-alpine 
+#       # volumes:
+#       #   - web-volume:/var/run/postgresql/data
+#       env_file:
+#         - ./env/.conf
+#       environment:
+#         - POSTGRES_DB=postgres
+#         - POSTGRES_USER=postgres
+#         - POSTGREES_PASSWORD=postgres
+#       ports:
+#         - '5432:5432'
+
+#     # server:
+#     #   restart: always
+#     #   build: ./app
+#     #   depends_on:
+#     #     - db
+#     #   networks:
+#     #     - web-networks
+#     #   env_file:
+#     #     - ./env/.conf
+#     #   volumes:
+#     #     - ./web:/app/
+#     #   ports:
+#     #     -  "8000:8000"
+#     #   command: >
+#     #     bash -c "python manage.py runserver 0.0.0.0:8000"
+    # web:
+    #   build: ./app
+    #   entrypoint: /app/docker-entrypoint.sh
+    #   command: python manage.py runserver 0.0.0.0:8000
+    #   restart: always
+
+    #   # ref.
+    #   # https://docs.djangoproject.com/en/3.0/ref/django-admin/#django-admin-createsuperuser
+    #   environment:
+    #     - DJANGO_SUPERUSER_USERNAME=admin
+    #     - DJANGO_SUPERUSER_PASSWORD=admin1234
+    #     - DJANGO_SUPERUSER_EMAIL=admin@twtrubiks.com
+
+    #   # volumes:
+    #   #   - api_data:/docker_api
+    #     # (HOST:CONTAINER)
+    #   ports:
+    #     - "8000:8000"
+    #     # (HOST:CONTAINER)
+    #   depends_on:
+    #     - db
+    #   links:
+    #     - db:db
+    #   networks:
+    #     - web-networks
+    #   logging:
+    #     driver: "json-file"
+    #     options:
+    #       max-file: "1"    # default 是 1
+    #       max-size: "200m" # default 是 -1, 也就是沒有限制
+
+# volumes:
+#   web-volume:
+
+# networks:
+#   web-networks:
+#     driver: bridge
+
+
