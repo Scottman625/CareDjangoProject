@@ -339,7 +339,12 @@ def login(request):
     elif request.method == 'POST' and 'line_login' in request.POST:
         auth_url = 'https://access.line.me/oauth2/v2.1/authorize?'
         # call_back = 'http://202.182.105.11/' + redirect_to
+<<<<<<< HEAD
         call_back = 'http://scottman625.website/web/login_line?next=/web/index'
+=======
+        # call_back = 'http://202.182.105.11/web/login_line?next=/web/index'
+        call_back = 'https://care168.com.tw/web/login_line?next=/web/index'
+>>>>>>> 04a113b15e649f5c2d25841a1fe11152263f9b66
 
         print(call_back)
         data = {
@@ -391,7 +396,11 @@ def login_line(request):
         'client_id': '1657316694',
         'client_secret': 'd7751034c13427e80df2818ce86d3a26',
         'code': code,
+<<<<<<< HEAD
         'redirect_uri': 'http://scottman625.website/web/login_line?next=/web/index' ,
+=======
+        'redirect_uri': 'https://care168.com.tw/web/login_line?next=/web/index' ,
+>>>>>>> 04a113b15e649f5c2d25841a1fe11152263f9b66
     }
     data = parse.urlencode(FormData)
     resp = requests.post(url, headers=headers, data=data)
@@ -440,7 +449,11 @@ def register_phone(request):
     elif request.method == 'POST' and 'line_login' in request.POST:
         auth_url = 'https://access.line.me/oauth2/v2.1/authorize?'
         # call_back = 'http://202.182.105.11/' + redirect_to
+<<<<<<< HEAD
         call_back = 'http://scottman625.website/web/login_line?next=/web/index'
+=======
+        call_back = 'https://care168.com.tw/web/login_line?next=/web/index'
+>>>>>>> 04a113b15e649f5c2d25841a1fe11152263f9b66
 
         print(call_back)
         data = {
@@ -656,11 +669,6 @@ def search_carer_detail(request):
     if servant.is_hospital == True:
         servant_care_type.append('醫院看護')
 
-    license_not_provide = []
-    for license_id in range(1,4):
-        if UserLicenseShipImage.objects.filter(user=servant,license=license_id).exists() == False:
-            license_not_provide.append(License.objects.get(id=license_id))
-
     if len(Review.objects.filter(servant=servant)) >= 2:
         reviews = Review.objects.filter(servant=servant).order_by('-servant_rating_created_at')[:2]
         if reviews_all != None:
@@ -673,7 +681,7 @@ def search_carer_detail(request):
         if request.user.is_authenticated:
             user = request.user
             if user == servant:
-                return render(request, 'web/search_carer_detail.html',{'servant_care_type':servant_care_type, 'weekdays':weekdays, 'cityName':city,'citys':citys, 'is_continuous_time':is_continuous_time, 'defaultStartTime':defaultStartTime,'defaultEndTime':defaultEndTime,'defaultStartEndDate':defaultStartEndDate,'weekday_list':weekday_list, 'servant':servant,'license_not_provide':license_not_provide,'reviews':reviews,'citys':citys,'care_type':care_type,'alert_flag': True})
+                return render(request, 'web/search_carer_detail.html',{'servant_care_type':servant_care_type, 'weekdays':weekdays, 'cityName':city,'citys':citys, 'is_continuous_time':is_continuous_time, 'defaultStartTime':defaultStartTime,'defaultEndTime':defaultEndTime,'defaultStartEndDate':defaultStartEndDate,'weekday_list':weekday_list, 'servant':servant,'reviews':reviews,'citys':citys,'care_type':care_type,'alert_flag': True})
             else:
                 care_type = request.POST.get('care_type')
                 city = request.POST.get('city')
@@ -735,7 +743,7 @@ def search_carer_detail(request):
             return redirect('login')
     defaultStartTime = start_time
     defaultEndTime = end_time
-    return render(request, 'web/search_carer_detail.html',{'servant_care_type':servant_care_type, 'weekdays':weekdays, 'cityName':city,'citys':citys, 'is_continuous_time':is_continuous_time, 'defaultStartTime':defaultStartTime,'defaultEndTime':defaultEndTime,'defaultStartEndDate':defaultStartEndDate,'weekday_list':weekday_list, 'servant':servant,'license_not_provide':license_not_provide,'reviews':reviews,'citys':citys,'care_type':care_type})
+    return render(request, 'web/search_carer_detail.html',{'servant_care_type':servant_care_type, 'weekdays':weekdays, 'cityName':city,'citys':citys, 'is_continuous_time':is_continuous_time, 'defaultStartTime':defaultStartTime,'defaultEndTime':defaultEndTime,'defaultStartEndDate':defaultStartEndDate,'weekday_list':weekday_list, 'servant':servant,'reviews':reviews,'citys':citys,'care_type':care_type})
 
 def booking_patient_info(request):
     user = request.user
@@ -1282,7 +1290,7 @@ def booking_confirm(request):
 
         tempcase.delete()
         order_id = order.id
-        return redirect_params('http://202.182.105.11/newebpayApi/mpg_trade',{'order_id':order_id})
+        return redirect_params('https://care168.com.tw/newebpayApi/mpg_trade',{'order_id':order_id})
     elif request.method == 'POST' and 'previous' in request.POST:
         return redirect_params('booking_contact',{'servant':servant_id})
     return render(request, 'web/booking/confirm.html',{'city_id':city_id, 'servant_id':servant_id,'body_condition_list':body_condition_list,'service_list':service_list,'increase_service_list':increase_service_list, 'disease_list':disease_list,'tempcase':tempcase, 'user':user,'start_end_date':start_end_date, 'increase_service_ids':increase_service_ids, 'weekday_str':weekday_str, 'start_time':start_time,'end_time':end_time, 'is_continuous_time':is_continuous_time, 'start_date_str':start_date_str,'end_date_str':end_date_str,'care_type':care_type,'servant':servant})
@@ -2642,3 +2650,6 @@ def platform_percent_cal(user,order):
 
 def chat(request):
     return render(request, 'web/chat.html')
+
+def success_pay(request):
+    return render(request, 'web/success_pay.html')

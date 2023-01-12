@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: django-demo-pod
+  namespace: default
+  labels:
+    app: demoApp
+spec:
+  containers:
+  - image: scottman625/docker-demo-app
+    name: django-container
+    ports:
+      - containerPort: 8080
+

@@ -1,0 +1,33 @@
+version: '3.9'
+services:
+  db:
+    restart: always
+    image: postgres:11-alpine
+    volumes:
+      - web-volume:/var/lib/postgresql/data
+    env_file:
+      - ./env/.conf
+    networks:
+      -  web-networks
+    ports:
+      - "5432:5432"
+  server:
+    restart: always
+    depends_on:
+      - db
+    networks:
+      - web-networks
+    env_file:
+      - ./env/.conf
+    volumes:
+      - ./web:/app/
+    ports:
+      -  "8000:8000"
+    command: >
+      bash -c "python manage.py runserver 0.0.0.0:8000"
+networks:
+  web-networks:
+    driver: bridge
+
+volumes:
+  web-volume:
